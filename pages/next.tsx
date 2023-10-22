@@ -10,6 +10,9 @@ import UserCard from "../components/UserCard";
 import { userType } from "../types/userType";
 import { v4 as uuidv4, v4 } from "uuid";
 import Link from "next/link";
+import { pic1, pic2, pic3, pic4 } from "../assets/pics";
+import Image from "next/image";
+import { NextSeo } from "next-seo";
 
 export default function Home() {
   const [searchedText, setSearchedText] = useState("");
@@ -38,6 +41,11 @@ export default function Home() {
   }, [searchedText, users.users]);
   return (
     <section className={styles.container}>
+      <NextSeo
+        title="Simple Usage Example"
+        description="A short description goes here."
+        themeColor="#D80032"
+      />
       <section className="users-header-section">
         <h1 className="font-bold text-[2rem] capitalize text-sky-300">
           users list
@@ -112,6 +120,27 @@ export default function Home() {
       <Link href="/other" legacyBehavior>
         <a>other page</a>
       </Link>
+      <div className="min-w-full p-5 flex flex-wrap items-start justify-start gap-5">
+        {[pic1, pic2, pic3, pic4].map((pic) => {
+          return (
+            <div
+              className="min-w-[300px] max-w-[300px] min-h-[200px] max-h-[200px] rounded-lg p-2 border-[1px] border-sky-300"
+              key={pic.src}
+            >
+              <Image
+                src={pic.src}
+                width={200}
+                height={100}
+                quality={50}
+                placeholder="blur"
+                blurDataURL={pic.src}
+                alt="product image"
+                loading="lazy"
+              />
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }

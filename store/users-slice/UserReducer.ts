@@ -1,5 +1,6 @@
 import { userType } from "../../types/userType";
 import { v4 as uuidv4 } from "uuid";
+import { rootState } from "../store";
 
 export type userINITtype = {
   users: userType[];
@@ -19,7 +20,7 @@ const userReducer = (
     type: string;
     payload: userType;
   }
-) => {
+): userINITtype => {
   switch (action.type) {
     case "ADD_USER":
       let newusers = state.users;
@@ -58,13 +59,20 @@ const userReducer = (
     case "SEARCHED_USERS":
       return {
         ...state,
-        searched_text: action.payload,
+        searched_text: action.payload as unknown as string,
+      };
+    case "ADD_ALL_USERS":
+      return {
+        ...state,
+        users: [...state.users, ...(action.payload as unknown as userType[])],
+        totalUsers:
+          (action.payload as unknown as userType[]).length + state.users.length,
       };
     default:
       return state;
   }
 };
 export default userReducer;
-export const selectUsers = (state: any) => {
-  return state.users as userINITtype;
+export const selectUsers = (state: rootState) => {
+  return state.users;
 };

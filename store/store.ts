@@ -3,23 +3,25 @@ import {
   combineReducers,
   applyMiddleware,
   AnyAction,
+  CombinedState,
 } from "redux";
 import { Context, HYDRATE, createWrapper } from "next-redux-wrapper";
-import userReducer from "./users-slice/UserReducer";
+import userReducer, { userINITtype } from "./users-slice/UserReducer";
 import logger from "redux-logger";
+export interface IApplicationState {
+  users: userINITtype;
+}
 const combinedReducers = combineReducers({
   users: userReducer,
 });
-const reducer = (state: any, action: AnyAction) => {
+const reducer = (
+  state: CombinedState<{ users: userINITtype }> | undefined,
+  action: any
+) => {
   if (action.type === HYDRATE) {
     const nexState = {
       ...state,
-      users: {
-        ...state.users,
-        users: [
-          ...new Set([...state.users.users, ...action.payload.users.users]),
-        ],
-      },
+      ...action.payload,
     };
 
     return nexState;
@@ -34,8 +36,10 @@ const bindmiddlewares = (middleWares: any[]) => {
     return applyMiddleware(...middleWares);
   }
 };
-const makeStore = (context: Context) =>
-  createStore(reducer, bindmiddlewares([]));
+const makeStore = (context: Context) => {
+  return createStore(reducer, bindmiddlewares([]));
+};
 
 export const Wrapper = createWrapper(makeStore, { debug: true });
 export default Wrapper;
+export type rootState = ReturnType<typeof combinedReducers>;

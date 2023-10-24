@@ -25,9 +25,16 @@ const updateUserAction = (data: userType) => {
 const searchedUserAction = (data: string) => {
   return { type: "SEARCHED_USERS", payload: data };
 };
+const addAllUsers = (data: userType[]) => {
+  return {
+    type: "ADD_ALL_USERS",
+    payload: data,
+  };
+};
 export {
   addUserAction,
   deleteUserAction,
   updateUserAction,
   searchedUserAction,
+  addAllUsers,
 };

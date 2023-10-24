@@ -8,13 +8,13 @@ const UserCard = ({ user }: { user: userType }) => {
   return (
     <div className="bg-sky-950 border-[1px] border-sky-950 p-2 rounded-lg flex flex-wrap items-start justify-start gap-2 text-[1rem] max-w-[300px] max-h-[300px]">
       <h3>{user.name}</h3>
-      <p>
+      <div>
         <span>age: {user.age}</span>
         <span>job: {user.job}</span>
         <span>
           created-at: {new Date(user.created_at).toLocaleDateString()}
         </span>
-      </p>
+      </div>
       <button
         className="p-2 rounded-lg capitalize min-w-fit h-fit bg-red-500"
         onClick={() => dispatch(deleteUserAction(user))}

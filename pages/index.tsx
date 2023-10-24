@@ -1,10 +1,7 @@
 import styles from "../styles/Home.module.css";
 import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addUserAction,
-  searchedUserAction,
-} from "../store/users-slice/UsersActions";
+import { addUserAction } from "../store/users-slice/UsersActions";
 import { selectUsers } from "../store/users-slice/UserReducer";
 import UserCard from "../components/UserCard";
 import { userType } from "../types/userType";
@@ -24,20 +21,17 @@ export default function Home() {
   });
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
-  useMemo(() => {
-    dispatch(searchedUserAction(searchedText));
-  }, [searchedText, users.users]);
   const searchedData = useMemo(() => {
-    return users.users.filter((user) => {
-      return (
-        user.name.toLowerCase().includes(users.searched_text.toLowerCase()) ||
-        user.job.toLowerCase().includes(users.searched_text.toLowerCase()) ||
-        (user.age + "")
-          .toLowerCase()
-          .includes(users.searched_text.toLowerCase())
-      );
-    });
-  }, [searchedText, users.users]);
+    return users.users.length > 0
+      ? users?.users?.filter((user) => {
+          return (
+            user.name.toLowerCase().includes(searchedText.toLowerCase()) ||
+            user.job.toLowerCase().includes(searchedText.toLowerCase()) ||
+            (user.age + "").toLowerCase().includes(searchedText.toLowerCase())
+          );
+        })
+      : [];
+  }, [searchedText, users.users.length]);
   return (
     <section className={styles.container}>
       <section className="users-header-section">
@@ -100,13 +94,17 @@ export default function Home() {
         />
       </form>
       <section className="min-w-full flex items-start justify-center gap-5 flex-wrap p-5">
-        {searchedData.map((user) => {
-          return (
-            <div key={user.id}>
-              <UserCard user={user} />
-            </div>
-          );
-        })}
+        {searchedData.length > 0 ? (
+          searchedData.map((user) => {
+            return (
+              <div key={user.id}>
+                <UserCard user={user} />
+              </div>
+            );
+          })
+        ) : (
+          <div>loading ....</div>
+        )}
       </section>
       <Link href="/next" legacyBehavior>
         <a>next page</a>

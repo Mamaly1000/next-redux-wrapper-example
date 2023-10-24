@@ -10,7 +10,7 @@ const Sitemap = () => {
 export const getServerSideProps = async ({
   res,
 }: GetServerSidePropsContext) => {
-  const BASE_URL = "http://localhost:3000";
+  const BASE_URL = "https://next-redux-wrapper.netlify.app";
 
   const pagesDir = "pages/**/*.tsx";
   let staticPaths = await glob.sync(pagesDir);

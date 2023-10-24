@@ -108,8 +108,8 @@ export default function Home() {
       <section className="min-w-full flex items-start justify-center gap-5 flex-wrap p-5">
         {searchedData.map((user) => {
           return (
-            <div>
-              <UserCard user={user} key={user.id} />
+            <div key={user.id}>
+              <UserCard user={user} />
             </div>
           );
         })}

@@ -10,12 +10,12 @@ import UserCard from "../components/UserCard";
 import Link from "next/link";
 import { v4 } from "uuid";
 
-const other = () => {
-  const users = useSelector(selectUsers);
+const Other = () => {
+  const Users = useSelector(selectUsers);
   return (
     <div className="p-5 min-w-full flex items-start justify-start gap-5 flex-wrap">
-      {users.users && users.users.length > 0 ? (
-        users.users.map((user) => {
+      {Users.users && Users.users.length > 0 ? (
+        Users.users.map((user) => {
           return <UserCard user={user} key={user.id} />;
         })
       ) : (
@@ -31,7 +31,7 @@ const other = () => {
   );
 };
 
-export default other;
+export default Other;
 export const getServerSideProps = Wrapper.getServerSideProps(
   (store): GetServerSideProps<any> =>
     async (): Promise<any> => {

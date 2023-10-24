@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from "next";
 import * as fs from "fs";
 import axios from "axios";
 import { postDataType } from "./posts/[post_slug]";
+import { glob } from "glob";
 const Sitemap = () => {
   return null;
 };
@@ -11,20 +12,12 @@ export const getServerSideProps = async ({
 }: GetServerSidePropsContext) => {
   const BASE_URL = "http://localhost:3000";
 
-  const staticPaths = fs
-    .readdirSync("pages")
-    .filter((staticPage) => {
-      return ![
-        "api",
-        "_app.js",
-        "_document.js",
-        "404.js",
-        "sitemap.xml.js",
-      ].includes(staticPage);
-    })
-    .map((staticPagePath) => {
-      return `${BASE_URL}/${staticPagePath}`;
-    });
+  const pagesDir = "pages/**/*.tsx";
+  let staticPaths = await glob.sync(pagesDir);
+  staticPaths = staticPaths
+    .filter((path) => !path.includes("["))
+    .filter((path) => !path.includes("/_"))
+    .filter((path) => !path.includes("404"));
   const { data: posts } = await axios.get(
     "https://jsonplaceholder.typicode.com/posts"
   );
@@ -48,6 +41,7 @@ export const getServerSideProps = async ({
       .join("")}
   </urlset>
 `;
+
   res.setHeader("Content-Type", "text/xml");
   res.write(sitemap);
   res.end();

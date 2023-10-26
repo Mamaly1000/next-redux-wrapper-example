@@ -31,7 +31,7 @@ export default function Home() {
           );
         })
       : [];
-  }, [searchedText, users.users.length]);
+  }, [searchedText, users.users]);
   return (
     <section className={styles.container}>
       <section className="users-header-section">

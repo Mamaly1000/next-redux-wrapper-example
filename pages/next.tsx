@@ -25,17 +25,12 @@ export default function Home() {
   });
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
-  useMemo(() => {
-    dispatch(searchedUserAction(searchedText));
-  }, [searchedText, users.users]);
   const searchedData = useMemo(() => {
     return users.users.filter((user) => {
       return (
-        user.name.toLowerCase().includes(users.searched_text.toLowerCase()) ||
-        user.job.toLowerCase().includes(users.searched_text.toLowerCase()) ||
-        (user.age + "")
-          .toLowerCase()
-          .includes(users.searched_text.toLowerCase())
+        user.name.toLowerCase().includes(searchedText.toLowerCase()) ||
+        user.job.toLowerCase().includes(searchedText.toLowerCase()) ||
+        (user.age + "").toLowerCase().includes(searchedText.toLowerCase())
       );
     });
   }, [searchedText, users.users]);

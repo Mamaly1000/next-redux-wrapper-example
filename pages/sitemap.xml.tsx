@@ -43,6 +43,7 @@ export const getServerSideProps = async ({
 `;
 
   res.setHeader("Content-Type", "text/xml");
+  res.statusCode = 200;
   res.write(sitemap);
   res.end();
 

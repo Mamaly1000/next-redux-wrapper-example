@@ -13,6 +13,7 @@ const SinglePost = ({ postData }: { postData: postDataType | null }) => {
       <div>
         <h1>{postData.title}</h1>
         <p>{postData.body}</p>
+        <div>{JSON.stringify(postData)}</div>
       </div>
     )
   );

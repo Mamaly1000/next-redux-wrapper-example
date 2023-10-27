@@ -1,8 +1,7 @@
 import {
   createStore,
   combineReducers,
-  applyMiddleware,
-  AnyAction,
+  applyMiddleware, 
   CombinedState,
 } from "redux";
 import { Context, HYDRATE, createWrapper } from "next-redux-wrapper";

@@ -1,17 +1,19 @@
 import { userType } from "../../types/userType";
-import { v4 as uuidv4 } from "uuid";
 import { rootState } from "../store";
+import { postDataType } from "../../pages/posts/[post_slug]";
 
 export type userINITtype = {
   users: userType[];
   totalUsers: number;
   searched_text: string;
+  post: postDataType | null;
 };
 
 const initailUserState: userINITtype = {
   users: [],
   totalUsers: 0,
   searched_text: "",
+  post: null,
 };
 
 const userReducer = (
@@ -67,6 +69,11 @@ const userReducer = (
         users: [...state.users, ...(action.payload as unknown as userType[])],
         totalUsers:
           (action.payload as unknown as userType[]).length + state.users.length,
+      };
+    case "GET_POST":
+      return {
+        ...state,
+        post: action.payload as unknown as postDataType,
       };
     default:
       return state;
